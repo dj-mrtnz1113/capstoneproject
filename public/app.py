@@ -5,7 +5,8 @@ from db_utils import (
     get_review_count_per_year,
     get_peak_months,
     get_reviews_by_category,
-    insert_data_to_db
+    insert_data_to_db,
+    get_db_connection
 )
 import os
 import pandas as pd
@@ -51,17 +52,27 @@ def predict():
 # Dashboard endpoints
 @app.route('/dashboard/review_count_per_year', methods=['GET'])
 def review_count_per_year():
-    try:
-        data = get_review_count_per_year()
-        return jsonify(data), 200
-    except Exception as e:
-        print("Error:", str(e))
-        return jsonify({"error": "Internal Server Error", "message": str(e)}), 500
+    filters = {
+        'category': request.args.get('category', 'all'),
+        'month': request.args.get('month', 'all'),
+        'years': request.args.get('years')  # This will be a comma-separated string or None
+    }
+    data = get_review_count_per_year(filters)
+    return jsonify(data)
+
 
 @app.route('/dashboard/peak_months', methods=['GET'])
 def peak_months():
     try:
-        peak_month_data = get_peak_months()
+        # Get filters from request arguments (if any)
+        filters = {
+            'year': request.args.get('year', 'all'),
+            'category': request.args.get('category', 'all')
+        }
+
+        # Fetch peak months with filters
+        peak_month_data = get_peak_months(filters)
+
         return jsonify(peak_month_data), 200
     except Exception as e:
         print("Error:", str(e))
@@ -71,12 +82,56 @@ def peak_months():
 @app.route('/dashboard/reviews_by_category', methods=['GET'])
 def reviews_by_category():
     try:
-        data = get_reviews_by_category()  # Use the updated function to get both positive and negative counts
-        return jsonify(data), 200
+        # Get filters from request arguments (if any)
+        filters = {
+            'year': request.args.get('year', 'all'),
+            'month': request.args.get('month', 'all'),
+            'category': request.args.get('category', 'all')
+        }
+
+        # Fetch peak months with filters
+        peak_month_data = get_reviews_by_category(filters)
+
+        return jsonify(peak_month_data), 200
     except Exception as e:
         print("Error:", str(e))
         return jsonify({"error": "Internal Server Error", "message": str(e)}), 500
 
+@app.route('/dashboard/years', methods=['GET'])
+def get_years():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT DISTINCT EXTRACT(YEAR FROM date) AS year FROM tagged_reviews ORDER BY year")
+    years = [row[0] for row in cursor.fetchall()]
+    cursor.close()
+    conn.close()
+    return jsonify(years)
+
+@app.route('/dashboard/categories', methods=['GET'])
+def get_categories():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT DISTINCT categories FROM tagged_reviews ORDER BY categories")
+    categories = [row[0] for row in cursor.fetchall()]
+    cursor.close()
+    conn.close()
+    return jsonify(categories)
+
+@app.route('/dashboard/months', methods=['GET'])
+def get_months():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    # Execute the query to get distinct months
+    cursor.execute("SELECT DISTINCT EXTRACT(MONTH FROM date) FROM tagged_reviews ORDER BY 1")
+
+    # Fetch the result and handle None values
+    months = [int(row[0]) for row in cursor.fetchall() if row[0] is not None]
+
+    cursor.close()
+    conn.close()
+
+    return jsonify(months)
 
 # File upload and batch processing endpoint
 @app.route('/upload', methods=['POST'])

@@ -53,14 +53,49 @@ document.getElementById('submitButton').addEventListener('click', async function
 
 // Function to fetch and render dashboard data
 async function fetchDataAndRenderDashboard() {
-    try {
-        const [reviewCountPerYear, peakMonths, reviewsByCategory] = await Promise.all([
-            fetch('http://localhost:5001/dashboard/review_count_per_year').then(res => res.json()),
-            fetch('http://localhost:5001/dashboard/peak_months').then(res => res.json()),
-            fetch('http://localhost:5001/dashboard/reviews_by_category').then(res => res.json())
-        ]);
+    // Disable filters during data fetching
+    document.getElementById('yearFilterContainer').disabled = true;
 
-        // Render the fetched data to your dashboard elements
+    // Show loading UI
+    document.getElementById('loading').style.display = 'block';
+
+    const selectedYears = Array.from(document.querySelectorAll('.yearCheckbox:checked'))
+        .map(checkbox => checkbox.value);
+    const monthFilter = document.getElementById('monthFilter').value;
+    const categoryFilter = document.getElementById('categoryFilter').value;
+
+    // Construct common query parameters that will be shared
+    const commonParams = {
+        years: selectedYears.join(','),
+        category: categoryFilter !== 'all' ? categoryFilter : '',
+        month: monthFilter !== 'all' ? monthFilter : ''
+    };
+
+    const peakParams = {
+        year: selectedYears.length > 0 ? selectedYears.join(',') : 'all',  // Handle empty years
+        category: categoryFilter !== 'all' ? categoryFilter : '',
+    };
+
+    const categoryParams = {
+        year: selectedYears.length > 0 ? selectedYears.join(',') : 'all',  // Multiple years separated by commas
+        category: categoryFilter !== 'all' ? categoryFilter : '',
+        month: monthFilter !== 'all' ? monthFilter : ''
+    };
+
+    try {
+        // Fetch data for review count per year (with year, month, and category filters)
+        const reviewCountParams = new URLSearchParams(commonParams);  // Includes year, month, and category
+        const reviewCountPerYear = await fetch(`http://localhost:5001/dashboard/review_count_per_year?${reviewCountParams}`).then(res => res.json());
+
+        // Fetch data for peak months (with year and category filters, but no month filter)
+        const peakMonthsParams = new URLSearchParams(peakParams);  // Only years and category
+        const peakMonths = await fetch(`http://localhost:5001/dashboard/peak_months?${peakMonthsParams}`).then(res => res.json());
+
+        // Fetch data for reviews by category (with year, month, and category filters)
+        const reviewsByCategoryParams = new URLSearchParams(categoryParams);  // Includes year, month, and category
+        const reviewsByCategory = await fetch(`http://localhost:5001/dashboard/reviews_by_category?${reviewsByCategoryParams}`).then(res => res.json());
+
+        // Render charts with the fetched data
         renderReviewCountPerYearChart(reviewCountPerYear);
         renderPeakMonths(peakMonths);
         renderReviewsByCategory(reviewsByCategory);
@@ -68,7 +103,109 @@ async function fetchDataAndRenderDashboard() {
     } catch (error) {
         console.error("Error fetching dashboard data:", error);
         alert("An error occurred while loading the dashboard data.");
+    } finally {
+        // Re-enable filters and hide loading indicator
+        document.getElementById('yearFilterContainer').disabled = false;
+        document.getElementById('loading').style.display = 'none';
     }
+}
+
+async function populateYearFilter() {
+    try {
+        const years = await fetch('http://localhost:5001/dashboard/years').then(res => res.json());
+
+        const container = document.getElementById('yearFilterContainer');
+
+        // Filter out any invalid values like undefined, null, or empty strings
+        const validYears = years.filter(year => {
+            // Only keep valid years (non-null, non-empty, and non-undefined)
+            return year != null && year !== '' && year !== undefined;
+        });
+
+
+        // Add the checkboxes dynamically for each valid year
+        validYears.forEach(year => {
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.value = year;
+            checkbox.id = `year-${year}`;
+            checkbox.classList.add('yearCheckbox');
+
+            const label = document.createElement('label');
+            label.htmlFor = `year-${year}`;
+            label.textContent = year;
+
+            // Append the checkbox and label to the container
+            container.appendChild(checkbox);
+            container.appendChild(label);
+            container.appendChild(document.createElement('br'));  // Line break for neatness
+        });
+
+        // Add event listener to re-fetch and update dashboard on change
+        document.querySelectorAll('.yearCheckbox').forEach(checkbox => {
+            checkbox.addEventListener('change', fetchDataAndRenderDashboard);
+        });
+
+    } catch (error) {
+        console.error("Error populating year filter:", error);
+    }
+}
+
+//document.getElementById('yearFilter').addEventListener('change', fetchDataAndRenderDashboard);
+document.getElementById('monthFilter').addEventListener('change', fetchDataAndRenderDashboard);
+document.getElementById('categoryFilter').addEventListener('change', fetchDataAndRenderDashboard);
+document.getElementById('yearFilterContainer').addEventListener('change', fetchDataAndRenderDashboard);
+
+
+async function populateFilters() {
+    try {
+        // Only populate categories since the years are already populated elsewhere
+        const categories = await fetch('http://localhost:5001/dashboard/categories').then(res => res.json());
+
+        const categoryFilter = document.getElementById('categoryFilter');
+        categories.forEach(category => {
+            const option = document.createElement('option');
+            option.value = category;
+            option.textContent = category;
+            categoryFilter.appendChild(option);
+        });
+
+    } catch (error) {
+        console.error("Error populating filters:", error);
+    }
+}
+
+async function populateMonthFilter() {
+    try {
+        // Fetch the months data from the API
+        const months = await fetch('http://localhost:5001/dashboard/months').then(res => res.json());
+
+        const monthFilter = document.getElementById('monthFilter');
+
+        // Check if 'All' option already exists to prevent duplication
+        if (!monthFilter.querySelector('option[value="all"]')) {
+            // Add the 'All' option only if it doesn't exist
+            const allOption = document.createElement('option');
+            allOption.value = 'all';
+            allOption.textContent = 'All';
+            monthFilter.appendChild(allOption);
+        }
+
+        // Then, add the months dynamically (assuming months is an array of numbers 1-12)
+        months.forEach(month => {
+            const option = document.createElement('option');
+            option.value = month;
+            option.textContent = getMonthName(month);  // Converts month number to month name
+            monthFilter.appendChild(option);
+        });
+    } catch (error) {
+        console.error("Error populating month filter:", error);
+    }
+}
+// Helper function to convert month number to month name
+function getMonthName(monthNumber) {
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    return monthNames[monthNumber - 1];
 }
 
 // Render functions
@@ -222,8 +359,12 @@ function renderReviewsByCategory(data) {
 }
 
 // Call the function to load the dashboard on page load
-window.onload = fetchDataAndRenderDashboard;
-
+window.onload = async () => {
+    await populateYearFilter();
+    await populateMonthFilter(); // Populate the month filter
+    await populateFilters(); // For categories
+    fetchDataAndRenderDashboard();
+};
 
 document.getElementById("uploadForm").addEventListener("submit", function (event) {
     event.preventDefault();  // Prevent the form from submitting the usual way

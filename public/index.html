@@ -42,6 +42,31 @@
     </div>
 
     <div id="dashboard-container">
+         <div id="filtersContainer">
+            <!-- Category Filter -->
+            <div id="categoryFilterContainer">
+                <label for="categoryFilter">Category:</label>
+                <select id="categoryFilter">
+                    <option value="all">All</option>
+                    <!-- The category options will be dynamically populated here by JavaScript -->
+                </select>
+            </div>
+
+            <!-- Month Filter -->
+            <div id="monthFilterContainer">
+                <label for="monthFilter">Month:</label>
+                <select id="monthFilter">
+                    <option value="all">All</option>
+                    <!-- The month options will be dynamically populated here by JavaScript -->
+                </select>
+            </div>
+
+            <!-- Year Filter -->
+            <div id="yearFilterContainer">
+                <label>Select Year:</label>
+                <!-- Checkboxes will be dynamically populated -->
+            </div>
+        </div>
         <div id="dashboard">
             <div class="cluster">
                 <h3>Reviews Per Year</h3>
@@ -72,6 +97,8 @@
         </div>
     </div>
 </div>
+
+<div id="loading" style="display:none;"></div>
 <script src="js/script.js"></script>
 </body>
 

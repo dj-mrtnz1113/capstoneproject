@@ -44,7 +44,7 @@ h1 {
 
 h2 {
     font-family: Poppins, sans-serif;
-    font-size: 30px;
+    font-size: 24px;
     margin-bottom: 20px;
 }
 
@@ -193,6 +193,66 @@ button:hover {
     color: #d9534f;
     font-weight: bold;
 }
+/* Overall styling for the filters container */
+#filtersContainer {
+    display: flex;
+    gap: 0px;
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+}
+
+/* Label styling for better alignment */
+#filtersContainer label {
+    font-weight: bold;
+    font-size: 14px;
+    margin-right: 7px;
+}
+
+/* Category and Month Filter dropdown styling */
+#monthFilter,
+#categoryFilter {
+    width: 150px;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+#monthFilter:focus,
+#categoryFilter:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Year filter checkbox styling */
+#yearFilterContainer {
+    /* display: flex;
+    flex-direction: column;
+    /* gap: 10px;
+    /* max-width: 300px; */
+}
+
+#yearFilterContainer input[type="checkbox"] {
+    width: auto;
+    margin-left: 10px;
+    cursor: pointer;
+    transform: scale(1.2); /* Medium size checkboxes */
+}
+
+/* Adjustments for container */
+#filtersContainer div {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+}
 
 /* Responsive Design */
 @media (max-width: 768px) {
@@ -207,5 +267,20 @@ button:hover {
 
     #dashboard {
         flex-direction: column;
+    }
+
+    #filtersContainer {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    #filtersContainer label {
+        margin-bottom: 4px;
+    }
+
+    #monthFilter,
+    #categoryFilter,
+    #yearFilterContainer {
+        width: 100%;
     }
 }
