@@ -11,23 +11,25 @@ body {
     padding: 0;
 }
 
+/* Header */
 header {
-    position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
     background-color: #16325B;
     padding: 15px 20px;
     color: rgb(255, 255, 255);
-    overflow: hidden;
+    position: relative;
     font-family: "Cooper";
+    overflow: hidden;
 }
-
+#title{
+    margin: 20px 0 20px 20px;
+}
 #logo-container {
     display: flex;
     align-items: center;
-    position: relative; /* Ensure it's positioned above the wave */
-    z-index: 3; /* Higher z-index to keep it in front */
+    z-index: 3;
 }
 
 #logo {
@@ -37,33 +39,20 @@ header {
 
 h1 {
     margin: 0;
-    position: relative;
-    z-index: 3; /* Keeps the title in front */
+    z-index: 3;
 }
 
 h2 {
-    font-family: Poppins;
+    font-family: Poppins, sans-serif;
     font-size: 30px;
-    margin: 0px;
-    padding-bottom: 20px;
+    margin-bottom: 20px;
 }
 
-h3 {
-    margin: 0px;
-    font-family: poppins;
-    font-weight: 500;
+h3, h4 {
+    font-family: Poppins, sans-serif;
+    margin: 0;
 }
 
-h4 {
-    font-family: poppins;
-    margin: 0px;
-    padding-bottom: 2px;
-}
-
-#title {
-    padding: 20px;
-    font-family: poppins;
-}
 /* Wave Effect */
 .wave-container {
     position: absolute;
@@ -71,23 +60,22 @@ h4 {
     left: 0;
     width: 100%;
     height: 40px;
-    overflow: hidden;
-    line-height: 0;
-    z-index: 1; /* Lower z-index so it appears behind the logo */
+    z-index: 1;
 }
 
 .wave-svg {
-    display: block;
     width: 100%;
     height: 100%;
-    position: relative;
 }
 
-/* Main Content Layout */
+/* Main Content */
 #main-content {
     display: flex;
+    gap: 20px;
     justify-content: space-between;
-    padding: 0px 20px 20px 20px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    margin: 0 20px;
 }
 
 /* Dashboard Section */
@@ -99,7 +87,6 @@ h4 {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-    justify-content: space-between;
 }
 
 .cluster {
@@ -115,10 +102,9 @@ canvas {
     max-height: 200px;
 }
 
-/* Sentiment Analysis Container */
+/* Container Styling */
 .container {
     flex: 1;
-    margin-left: 20px;
     background: #fff;
     padding: 20px;
     border-radius: 8px;
@@ -134,46 +120,10 @@ textarea, button {
 
 textarea {
     padding: 10px;
-    margin-bottom: 2px;
+    margin-bottom: 10px;
 }
 
-/* Result Section Grid */
-#result {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    background: #78b7d05c;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    justify-items: center;
-    margin-top: 20px;
-}
-.sent_result p {
-    font-size: xx-large;
-    font-family: bebas neue;
-    margin: 0px;
-    text-align: center;
-}
-.result p {
-    margin: 0;
-    padding: 5px;
-    font-size: 14px;
-    background-color: #e6f0ff;
-    border-radius: 5px;
-}
-
-/* Sentiment Result Colors */
-.positive {
-    color: #0056b3; /* Blue for positive sentiment */
-    font-weight: bold;
-}
-
-.negative {
-    color: #d9534f; /* Red for negative sentiment */
-    font-weight: bold;
-}
-
+/* Buttons */
 button {
     padding: 10px;
     background-color: #0056b3;
@@ -181,35 +131,18 @@ button {
     border: none;
     cursor: pointer;
     transition: background-color 0.3s;
-    margin-bottom: 15px;
 }
 
 button:hover {
     background-color: #003d80;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    #main-content {
-        flex-direction: column;
-    }
-
-    #dashboard-container,
-    .container {
-        width: 100%;
-        margin: 0;
-    }
-
-    #dashboard {
-        flex-direction: column;
-    }
-}
-
+/* File Upload Section */
 #fileUploadSection {
     padding: 15px;
+    background: #fff;
     border: 1px solid #ddd;
     border-radius: 8px;
-    background-color: #fff;
 }
 
 #fileUploadSection input[type="file"] {
@@ -219,18 +152,50 @@ button:hover {
 #fileUploadSection button {
     padding: 10px 20px;
     background-color: #227B94;
-    color: #fff;
-    border: none;
+    color: white;
     border-radius: 5px;
-    cursor: pointer;
 }
 
 #fileUploadSection button:hover {
     background-color: #16325B;
 }
 
-#result {
-    margin-top: 20px;
+/* Sentiment Section */
+.result {
+    font-size: 14px;
+    color: #555;
+    margin-top: 15px;
+}
+
+.sent_result p {
+    font-size: xx-large;
+    font-family: 'Bebas Neue', sans-serif;
+    margin: 0;
+    text-align: center;
+}
+
+.positive {
+    color: #0056b3;
     font-weight: bold;
-    color: #2a9d8f;
+}
+
+.negative {
+    color: #d9534f;
+    font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #main-content {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #dashboard-container, .container {
+        width: 100%;
+    }
+
+    #dashboard {
+        flex-direction: column;
+    }
 }
