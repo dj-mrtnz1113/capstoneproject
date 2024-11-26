@@ -157,7 +157,13 @@ button:hover {
 }
 
 #fileUploadSection #result {
-    margin-top: 15px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+#fileUploadSection #batch-result a {
+    color: white;
+    text-decoration: none;
 }
 
 #fileUploadSection button:hover {

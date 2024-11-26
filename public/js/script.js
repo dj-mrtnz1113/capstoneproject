@@ -245,7 +245,8 @@ document.getElementById("uploadForm").addEventListener("submit", function (event
             const fullDownloadUrl = `http://127.0.0.1:5001${data.download_url}`;
             fetchDataAndRenderDashboard();
             // Display download link
-            document.getElementById("result").innerHTML = `File processed successfully. <a href="${fullDownloadUrl}" target="_blank">Click here to download the processed file.</a>`;
+            document.getElementById("result").innerHTML = `File processed successfully.</a>`;
+            document.getElementById("batch-result").innerHTML = `<a href="${fullDownloadUrl}" target="_blank">Click here to Download</a>`;
         } else {
             document.getElementById("result").textContent = "Error: " + data.message;
         }
