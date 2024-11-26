@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SentiWave</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <header>
+        <div id="logo-container">
+            <img src="images/surfboard.png" alt="Logo" id="logo">
+            <h1>SentiWave</h1>
+        </div>
+        <div class="wave-container">
+            <svg viewBox="0 0 120 28" preserveAspectRatio="none" class="wave-svg">
+                <path d="M0,10 C30,20 50,0 120,10 L120,30 L0,30 Z" fill="#16325B"></path>
+                <path d="M0,15 C20,25 40,5 120,15 L120,30 L0,30 Z" fill="#227B94"></path>
+                <path d="M0,20 C15,28 30,10 120,20 L120,30 L0,30 Z" fill="#78B7D0"></path>
+            </svg>
+        </div>
+    </header>
+    <div id="title">
+        <h1>San Juan Tourist Review Dashboard</h1>
+    </div>
+    <div id="main-content">
+
+        <div class="container">
+            <h2>Batch File Processing</h2>
+            <div id="fileUploadSection">
+                <form id="uploadForm" enctype="multipart/form-data">
+                    <input type="file" id="file" name="file" required />
+                    <button type="submit">Upload File</button>
+                </form>
+                <div id="result"></div>
+            </div>
+        </div>
+
+        <!-- Dashboard Section -->
+        <div id="dashboard-container">
+            <div id="dashboard">
+                <div class="cluster">
+                    <h3>Reviews Per Year</h3>
+                    <canvas id="reviewsPerYearChart"></canvas>
+                </div>
+                <div class="cluster">
+                    <h3>Reviews Per Month</h3>
+                    <canvas id="peakMonthsChart"></canvas>
+                </div>
+                <div class="cluster">
+                    <h3>Polarity Distribution Per Category</h3>
+                    <canvas id="reviewsByCategoryChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sentiment Analysis Section -->
+        <div class="container">
+            <h2>Sentiment Predictor</h2>
+            <div id="sentimentSection">
+                <textarea id="reviewInput" placeholder="Enter your review here..." rows="5"></textarea>
+                <button id="submitButton">Analyze Sentiment</button>
+                <div class="result">
+                    <h4>Result:</h4>
+                </div>
+                <div class="sent_result">
+                    <p id="sentiment"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,236 @@
+/* General Styling */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #e6f0ff;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #16325B;
+    padding: 15px 20px;
+    color: rgb(255, 255, 255);
+    overflow: hidden;
+    font-family: "Cooper";
+}
+
+#logo-container {
+    display: flex;
+    align-items: center;
+    position: relative; /* Ensure it's positioned above the wave */
+    z-index: 3; /* Higher z-index to keep it in front */
+}
+
+#logo {
+    height: 50px;
+    margin-right: 15px;
+}
+
+h1 {
+    margin: 0;
+    position: relative;
+    z-index: 3; /* Keeps the title in front */
+}
+
+h2 {
+    font-family: Poppins;
+    font-size: 30px;
+    margin: 0px;
+    padding-bottom: 20px;
+}
+
+h3 {
+    margin: 0px;
+    font-family: poppins;
+    font-weight: 500;
+}
+
+h4 {
+    font-family: poppins;
+    margin: 0px;
+    padding-bottom: 2px;
+}
+
+#title {
+    padding: 20px;
+    font-family: poppins;
+}
+/* Wave Effect */
+.wave-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    overflow: hidden;
+    line-height: 0;
+    z-index: 1; /* Lower z-index so it appears behind the logo */
+}
+
+.wave-svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+/* Main Content Layout */
+#main-content {
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 20px 20px 20px;
+}
+
+/* Dashboard Section */
+#dashboard-container {
+    width: 60%;
+}
+
+#dashboard {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.cluster {
+    flex: 1 1 calc(48% - 10px);
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+}
+
+canvas {
+    width: 100%;
+    max-height: 200px;
+}
+
+/* Sentiment Analysis Container */
+.container {
+    flex: 1;
+    margin-left: 20px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+textarea, button {
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+}
+
+textarea {
+    padding: 10px;
+    margin-bottom: 2px;
+}
+
+/* Result Section Grid */
+#result {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    background: #78b7d05c;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    justify-items: center;
+    margin-top: 20px;
+}
+.sent_result p {
+    font-size: xx-large;
+    font-family: bebas neue;
+    margin: 0px;
+    text-align: center;
+}
+.result p {
+    margin: 0;
+    padding: 5px;
+    font-size: 14px;
+    background-color: #e6f0ff;
+    border-radius: 5px;
+}
+
+/* Sentiment Result Colors */
+.positive {
+    color: #0056b3; /* Blue for positive sentiment */
+    font-weight: bold;
+}
+
+.negative {
+    color: #d9534f; /* Red for negative sentiment */
+    font-weight: bold;
+}
+
+button {
+    padding: 10px;
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-bottom: 15px;
+}
+
+button:hover {
+    background-color: #003d80;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #main-content {
+        flex-direction: column;
+    }
+
+    #dashboard-container,
+    .container {
+        width: 100%;
+        margin: 0;
+    }
+
+    #dashboard {
+        flex-direction: column;
+    }
+}
+
+#fileUploadSection {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+#fileUploadSection input[type="file"] {
+    margin: 10px 0;
+}
+
+#fileUploadSection button {
+    padding: 10px 20px;
+    background-color: #227B94;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#fileUploadSection button:hover {
+    background-color: #16325B;
+}
+
+#result {
+    margin-top: 20px;
+    font-weight: bold;
+    color: #2a9d8f;
+}
