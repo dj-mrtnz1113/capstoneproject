@@ -49,6 +49,7 @@ def batch_process(file_path):
 
     if 'date' in df.columns:
         df['date'] = pd.to_datetime(df['date'], errors='coerce')
+        df['date'] = df['date'].apply(lambda x: x.strftime('%Y-%m-%d') if pd.notna(x) else None)
     
     # Translate contents to English using Google Translator
     df['translated_content'] = df['contents'].apply(lambda x: GoogleTranslator(source='auto', target='en').translate(x))

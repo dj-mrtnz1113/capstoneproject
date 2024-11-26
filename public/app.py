@@ -5,6 +5,7 @@ from db_utils import (
     get_review_count_per_year,
     get_peak_months,
     get_reviews_by_category,
+    insert_data_to_db
 )
 import os
 import pandas as pd
@@ -98,6 +99,12 @@ def upload_file():
         # Save the processed file
         processed_file = os.path.join(app.config['PROCESSED_FOLDER'], f"processed_{file.filename}")
         save_processed_data(processed_df, processed_file)
+
+        # Convert the processed DataFrame to a list of dictionaries for database insertion
+        data = processed_df.to_dict(orient='records')
+
+        # Insert the processed data into the database
+        insert_data_to_db(data)
 
         # Check if the processed file exists
         if os.path.exists(processed_file):

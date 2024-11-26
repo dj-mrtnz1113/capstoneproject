@@ -156,6 +156,10 @@ button:hover {
     border-radius: 5px;
 }
 
+#fileUploadSection #result {
+    margin-top: 15px;
+}
+
 #fileUploadSection button:hover {
     background-color: #16325B;
 }

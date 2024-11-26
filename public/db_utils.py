@@ -37,7 +37,6 @@ def insert_data_to_db(data):
         )
         for row in data
     ]
-
     conn = None
     try:
         conn = get_db_connection()

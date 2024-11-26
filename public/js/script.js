@@ -234,19 +234,16 @@ document.getElementById("uploadForm").addEventListener("submit", function (event
 
     // Show loading message while uploading
     document.getElementById("result").textContent = "Uploading and processing file... Please wait.";
-    // console.log("submit button triggered");
     fetch("http://127.0.0.1:5001/upload", {
         method: "POST",
         body: formData,
     })
     .then(response => response.json())
     .then(data => {
-        console.log("Upload response:", data);  // Debugging log
-    
         if (data.success) {
             // Concatenate the base URL with the relative download URL
             const fullDownloadUrl = `http://127.0.0.1:5001${data.download_url}`;
-            console.log("data is processed");
+            fetchDataAndRenderDashboard();
             // Display download link
             document.getElementById("result").innerHTML = `File processed successfully. <a href="${fullDownloadUrl}" target="_blank">Click here to download the processed file.</a>`;
         } else {
@@ -258,3 +255,4 @@ document.getElementById("uploadForm").addEventListener("submit", function (event
         document.getElementById("result").textContent = "Error uploading file.";
     });
 });
+

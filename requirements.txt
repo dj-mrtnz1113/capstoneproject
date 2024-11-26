@@ -1,0 +1,9 @@
+pandas
+nltk
+pickle
+deep_translator
+vaderSentiment
+pandas
+scikit-learn
+psycopg2
+flask_cors
