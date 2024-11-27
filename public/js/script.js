@@ -127,6 +127,7 @@ async function populateYearFilter() {
         validYears.forEach(year => {
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
+            checkbox.checked = true;
             checkbox.value = year;
             checkbox.id = `year-${year}`;
             checkbox.classList.add('yearCheckbox');
